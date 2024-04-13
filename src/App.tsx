@@ -1,15 +1,23 @@
 import * as React from "react"
 import {
   ChakraProvider,
-  Box
+  extendTheme
 } from "@chakra-ui/react"
-
 import Login from "./components/Login"
 
+const theme = extendTheme({
+  styles: {
+    global: {
+      body: {
+        w: '100%',
+        h: '100%'
+      }
+    }
+  }
+})
+
 export const App = () => (
-  <ChakraProvider>
-      <Box p={4}>
-        <Login/>
-      </Box>
-    </ChakraProvider>
+  <ChakraProvider theme={theme}>
+      <Login/>
+  </ChakraProvider>
 )

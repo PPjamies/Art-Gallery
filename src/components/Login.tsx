@@ -1,99 +1,135 @@
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { LockIcon, StarIcon } from '@chakra-ui/icons'
 import {
-    FormLabel,
     FormControl,
     FormErrorMessage,
     Input,
-    InputGroup,
-    InputRightElement,
     Text,
     Button,
     Checkbox,
     Link,
+    Box,
+    Center,
+    InputGroup,
+    InputRightElement,
     HStack,
+    Flex,
     VStack
 } from '@chakra-ui/react'
+import { 
+    Formik,
+    FormikHelpers,
+    Form,
+    Field,
+ } from 'formik'
 
-type Input = {
-    username: string,
-    password: string
-  }
+interface FormValues {
+    email: string,
+    password: string,
+    rememberMe: boolean
+}
 
 export default function Login() {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting }
-    } = useForm<Input>()
-
-    function handleInputChange_Username(e: React.ChangeEvent<HTMLInputElement>) {
-        setUsername(e.target.value)
+    
+    function validatePassword(password: string) {
+        // todo
     }
 
-    function handleInputChange_Password(e: React.ChangeEvent<HTMLInputElement>) {
-        setPassword(e.target.value)
+    function handleSubmit(values: FormValues, actions: FormikHelpers<FormValues>) {
+        // todo
     }
 
-    function onSubmit() {
-        
+
+    const innerBoxStyle = {
+        h: '100%',
+        w: '100%',
+        color: 'white'
     }
 
+    const outerBoxStyle = {
+        h: 'lg',
+        w: 'lg',
+        p: '40px',
+        shadow: 'xl',
+        borderRadius: 'md',
+        backdropFilter: 'auto',
+        backdropBlur: '8px',
+        bgColor: 'transparent',
+        bgGradient: 'linear(to-l, rgba(0, 0, 0, 0.327), rgba(0, 0, 0, 0.4))'
+    }
+
+    const centerStyle = {
+        minH: '100vh',
+        bgImage: 'url(' + require('./1023-Exhibition.jpg') + ')',
+        bgRepeat: 'no-repeat',
+        bgPosition: 'center',
+    }
+    
+
+    const buttonStyle = {
+        borderRadius: '3xl',
+        width: 'full'
+    }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <FormControl isInvalid={Boolean(errors.username) || Boolean(errors.password)}>
-                <FormLabel>Login</FormLabel>
-                <VStack>
-                    <InputGroup>
-                        <InputRightElement>
-                            <StarIcon/>
-                        </InputRightElement>
-                        <Input
-                            id='username'
-                            placeholder='Username'
-                            {...register('username', {
-                                required: 'Username is required',
-                                min:1
-                            })}
-                            onChange={handleInputChange_Username}/>
-                    </InputGroup>
-                    <FormErrorMessage>
-                        {errors.username ? errors.username.message : ''}
-                    </FormErrorMessage>
+        <Center sx={centerStyle}>
+            <Box sx={outerBoxStyle}>
+                <Box sx={innerBoxStyle}>
+                    
+                    <Flex justify='center'>
+                        <Text>Login</Text>
+                    </Flex>
 
-                    <InputGroup>
-                        <InputRightElement>
-                            <LockIcon/>
-                        </InputRightElement>
-                        <Input 
-                            id='password'
-                            placeholder='Password'
-                            {...register('password', {
-                                required: 'Password is required',
-                                min:1
-                            })}
-                            onChange={handleInputChange_Password}/>
-                    </InputGroup>
-                    <FormErrorMessage>
-                        {errors.password ? errors.password.message : ''}
-                    </FormErrorMessage>
-                </VStack>
-            </FormControl>
-            <HStack>
-                <Checkbox>Remember Me</Checkbox>
-                <Link>Forgot Password?</Link>
-            </HStack>
-            <Button isLoading={isSubmitting} type='submit'>
-                Login
-            </Button>
-            <HStack>
-                <Text>Don't have an account?</Text>
-                <Link>Register</Link>
-            </HStack>
-        </form>
+                    <Formik
+                        initialValues={{
+                            email: '',
+                            password: '',
+                            rememberMe: false
+                        }}
+                        onSubmit={(values, actions) => handleSubmit(values, actions)}>
+
+                        <Form>
+                            <FormControl>
+                                <Field 
+                                    as={Input}
+                                    id='email'
+                                    name='email'
+                                    type='email'
+                                    variant='filled'/>
+                                <FormErrorMessage>ERRROROROROROROOR</FormErrorMessage>
+                            </FormControl>
+                            <FormControl>
+                                <Field 
+                                    as={Input}
+                                    id='password'
+                                    name='password'
+                                    type='password'
+                                    variant='filled'
+                                    validate={validatePassword}/>
+                                <FormErrorMessage>EROROROROROROR:D</FormErrorMessage>
+                            </FormControl>
+
+                            <Flex justify='space-between'>
+                                <Field
+                                    as={Checkbox}
+                                    id='rememberMe'
+                                    name='rememberMe'
+                                    colorScheme='purple'>Remember me</Field>
+
+                                <Link>Forgot Password?</Link>
+                            </Flex>
+
+                            <Button 
+                                sx={buttonStyle}
+                                type='submit'>Login</Button>
+
+                            <Flex justify='center'>
+                                <Text>Don't have an account?<Link fontWeight='bold'>Register</Link></Text>
+                            </Flex>
+
+                        </Form>
+                  </Formik>              
+                </Box>
+            </Box>
+        </Center>
     )
 }
