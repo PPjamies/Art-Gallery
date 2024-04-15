@@ -3,7 +3,7 @@ import {
   ChakraProvider,
   extendTheme
 } from "@chakra-ui/react"
-import Login from "./components/Login"
+import Login from "./components/login/Login"
 
 const theme = extendTheme({
   styles: {
