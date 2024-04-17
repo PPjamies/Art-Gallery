@@ -3,7 +3,8 @@ import {
   ChakraProvider,
   extendTheme
 } from "@chakra-ui/react"
-import Login from "./components/login/Login"
+import AuthRoutes from "./router/auth-routes"
+import { BrowserRouter } from "react-router-dom"
 
 const theme = extendTheme({
   styles: {
@@ -18,6 +19,8 @@ const theme = extendTheme({
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-      <Login/>
+    <BrowserRouter>
+      <AuthRoutes/>
+    </BrowserRouter>
   </ChakraProvider>
 )
